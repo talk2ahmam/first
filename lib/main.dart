@@ -230,6 +230,39 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     return const Color(0xFF262230);
   }
 
+  Widget _buildButton(String label) {
+    final displayLabel = label == 'DEG' ? (_degrees ? 'DEG' : 'RAD') : label;
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: Material(
+          color: _buttonColor(label),
+          borderRadius: BorderRadius.circular(16),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => _onButtonPressed(label),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    displayLabel,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -255,7 +288,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           children: [
             if (_history.isNotEmpty)
               SizedBox(
-                height: 72,
+                height: 60,
                 child: ListView.builder(
                   reverse: true,
                   itemCount: _history.length,
@@ -274,7 +307,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 ),
               ),
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -306,41 +339,14 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ),
             ),
             Expanded(
-              flex: 7,
+              flex: 9,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                 child: Column(
                   children: _buttonRows.map((row) {
                     return Expanded(
                       child: Row(
-                        children: row.map((label) {
-                          final displayLabel = label == 'DEG' ? (_degrees ? 'DEG' : 'RAD') : label;
-                          return Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: _buttonColor(label),
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(vertical: 18),
-                                  elevation: 0,
-                                ),
-                                onPressed: () => _onButtonPressed(label),
-                                child: Text(
-                                  displayLabel,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                        children: row.map((label) => _buildButton(label)).toList(),
                       ),
                     );
                   }).toList(),
