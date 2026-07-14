@@ -331,7 +331,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                                 onPressed: () => _onButtonPressed(label),
                                 child: Text(
                                   displayLabel,
-                                  style: const TextStyle(fontSize: 18),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
