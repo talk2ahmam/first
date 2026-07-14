@@ -23,6 +23,9 @@ jobs:
 
     - run: flutter create --platforms=android .
 
+    - name: Set app display name
+      run: sed -i 's/android:label="[^"]*"/android:label="Ahmam Calculator"/' android/app/src/main/AndroidManifest.xml
+
     - run: flutter pub get
 
     - run: flutter build apk --release

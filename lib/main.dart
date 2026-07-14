@@ -13,7 +13,7 @@ class CalculatorApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const accent = Color(0xFF7351FF);
     return MaterialApp(
-      title: 'Scientific Calculator',
+      title: 'Ahmam Calculator',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -142,11 +142,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   void _onButtonPressed(String value) {
-    // Handle continuation-after-'=' behavior first.
     if (_justCalculated) {
       final isStateButton = {'C', 'DEL', '=', 'DEG', 'MC', 'MR', 'M+', 'M-'}.contains(value);
       if (_operators.contains(value)) {
-        _justCalculated = false; // keep result, append operator below
+        _justCalculated = false;
       } else if (!isStateButton) {
         setState(() {
           _expression = '';
@@ -235,7 +234,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scientific Calculator'),
+        title: const Text('Ahmam Calculator'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -275,6 +274,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 ),
               ),
             Expanded(
+              flex: 3,
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -305,40 +305,42 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: _buttonRows.map((row) {
-                  return Expanded(
-                    child: Row(
-                      children: row.map((label) {
-                        final displayLabel = label == 'DEG' ? (_degrees ? 'DEG' : 'RAD') : label;
-                        return Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: _buttonColor(label),
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
+            Expanded(
+              flex: 7,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                child: Column(
+                  children: _buttonRows.map((row) {
+                    return Expanded(
+                      child: Row(
+                        children: row.map((label) {
+                          final displayLabel = label == 'DEG' ? (_degrees ? 'DEG' : 'RAD') : label;
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: _buttonColor(label),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 18),
+                                  elevation: 0,
                                 ),
-                                padding: const EdgeInsets.symmetric(vertical: 18),
-                                elevation: 0,
-                              ),
-                              onPressed: () => _onButtonPressed(label),
-                              child: Text(
-                                displayLabel,
-                                style: const TextStyle(fontSize: 18),
+                                onPressed: () => _onButtonPressed(label),
+                                child: Text(
+                                  displayLabel,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  );
-                }).toList(),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           ],
